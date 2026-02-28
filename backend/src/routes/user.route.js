@@ -22,6 +22,12 @@ userRouter.post("/unfollow/:username", identifyUser, userController.unfollowUser
 userRouter.post("/like/:postID", identifyUser, userController.likePost);
 
 /**
+ * @route POST /api/users/dislike/postID
+ * @description dislike a post
+ */
+userRouter.post("/dislike/:postID", identifyUser, userController.dislikePost);
+
+/**
  * @route POST /api/users/follow/:followID/accept
  * @description accept the follow request
  */

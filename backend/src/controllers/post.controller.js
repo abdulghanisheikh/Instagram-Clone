@@ -1,6 +1,7 @@
 const ImageKit = require("@imagekit/nodejs");
 const { toFile } = require("@imagekit/nodejs");
 const postModel = require("../models/post.model.js");
+const likeModel = require("../models/like.model.js");
 
 const imageKit = new ImageKit({
     privateKey: process.env.IMAGEKIT_PRIVATE_KEY
@@ -69,7 +70,18 @@ async function getPostDetails(req, res) {
 }
 
 async function getFeed(req, res) {
-    const posts = await postModel.find().populate("user");
+    const posts = await Promise.all((await postModel.find().populate("user").lean()) // mongoose object => regular object
+    .map(async(post) => {
+        const liked = await likeModel.findOne({
+            $and: [
+                { user: req.user.username },
+                { post: post._id }
+            ]
+        });
+
+        post.isLiked = liked ? true : false;
+        return post;
+    }));
 
     res.status(200).json({
         success: true,

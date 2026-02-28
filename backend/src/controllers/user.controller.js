@@ -227,6 +227,42 @@ async function likePost(req, res) {
     });
 }
 
+async function dislikePost(req, res) {
+    const postID = req.params.postID;
+    const username = req.user.username;
+
+    const post = await postModel.findById(postID);
+
+    if(!post) {
+        return res.status(409).json({
+            success: false,
+            message: "Post not found."
+        });
+    }
+
+    const alreadyLiked = await likeModel.findOne({
+        post: postID,
+        user: username
+    });
+
+    if(!alreadyLiked) {
+        return res.status(403).json({
+            success: true,
+            message: "Post is already disliked."
+        });
+    }
+
+    await likeModel.findOneAndDelete({
+        post: postID,
+        user: username
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Post disliked"
+    });
+}
+
 async function getFollowRequests(req, res) {
     const followeeUsername = req.user.username;
 

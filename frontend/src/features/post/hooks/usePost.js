@@ -1,4 +1,4 @@
-import { getFeed } from "../services/post.api";
+import { getFeed, like, dislike } from "../services/post.api";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
@@ -20,5 +20,25 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, handleGetFeed };
+    async function handlePostLike(postID) {
+        try {
+            const data = await like(postID);
+            console.log(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }
+    }
+
+    async function handlePostDislike(postID) {
+        try {
+            const data = await dislike(postID);
+            console.log(data);
+        }
+        catch(err) {
+            console.log(err.message);
+        }
+    }
+
+    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike };
 }
