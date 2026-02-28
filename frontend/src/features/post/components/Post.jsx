@@ -19,7 +19,7 @@ const Post = ({user, post, handleLikes}) => {
             <div className="icons flex items-center justify-between w-full px-1">
                 <div className="left flex items-center gap-3">
                     {
-                        post.isLiked ? 
+                        post.isLiked ?
                         <button className="cursor-pointer" onClick={handleLikes}><GoHeartFill size={24} color="red" /></button> :
                         <button className="cursor-pointer" onClick={handleLikes}><FaRegHeart size={24} /></button>
                     }

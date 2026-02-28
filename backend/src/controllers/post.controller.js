@@ -73,10 +73,8 @@ async function getFeed(req, res) {
     const posts = await Promise.all((await postModel.find().populate("user").lean()) // mongoose object => regular object
     .map(async(post) => {
         const liked = await likeModel.findOne({
-            $and: [
-                { user: req.user.username },
-                { post: post._id }
-            ]
+            post: post._id,
+            user: req.user.username
         });
 
         post.isLiked = liked ? true : false;

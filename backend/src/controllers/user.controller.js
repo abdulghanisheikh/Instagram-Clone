@@ -289,6 +289,7 @@ module.exports = {
     sendFollowRequest,
     unfollowUser,
     likePost,
+    dislikePost,
     acceptFollowRequest,
     rejectFollowRequest,
     getFollowRequests

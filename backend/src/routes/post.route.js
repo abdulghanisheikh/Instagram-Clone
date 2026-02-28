@@ -27,7 +27,7 @@ postRouter.get("/", identifyUser, postController.getPosts);
 postRouter.get("/details/:postId", identifyUser, postController.getPostDetails);
 
 /**
- * @route /api/posts/feed
+ * @route GET /api/posts/feed
  * @description gets all posts from the DB
  * @access private
  */

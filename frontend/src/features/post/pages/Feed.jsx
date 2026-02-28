@@ -3,15 +3,16 @@ import Post from "../components/Post";
 import { usePost } from "../hooks/usePost";
 
 const Feed = () => {
-    const {feed, handleGetFeed, loading, handlePostLike, handlePostDislike} = usePost();
+    const {feed, handleGetFeed, loading, handlePostLike, handlePostDislike, updateFeedPost} = usePost();
 
     async function handleLikeButton(post) {
         if(post.isLiked) {
-            await handlePostDislike(post._id);
+            handlePostDislike(post._id);
         }
-        else await handlePostLike(post._id);
-        
-        handleGetFeed();
+        else {
+            handlePostLike(post._id);
+        }
+        updateFeedPost(post._id, !post.isLiked); // update the feed state locally without fetching from the backend
     }
 
     useEffect(() => {
@@ -19,7 +20,7 @@ const Feed = () => {
     }, []);
 
     if(loading || !feed) {
-        <main className="min-h-screen w-screen bg-black flex justify-center items-center text-white py-4">
+        return <main className="min-h-screen w-screen bg-black flex justify-center items-center text-white py-4">
             <h1 className="text-3xl">Loading feed...</h1>
         </main>
     }
@@ -32,8 +33,8 @@ const Feed = () => {
 
     return <main className="min-h-screen w-screen bg-black text-white py-4 px-5">
         <div className="feed flex flex-col gap-2 lg:w-1/4 w-full mx-auto">
-            {feed.map((post, index) => {
-                return <Post key={index} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
+            {feed.map((post) => {
+                return <Post key={post._id} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
             })}
         </div>
     </main>

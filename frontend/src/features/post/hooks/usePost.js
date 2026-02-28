@@ -1,4 +1,4 @@
-import { getFeed, like, dislike } from "../services/post.api";
+import { getFeed, like, dislike } from "../services/post.api.js";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
@@ -40,5 +40,14 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike };
+    function updateFeedPost(postID, like) {
+        setFeed(prev => prev.map((post) => {
+            if(post._id === postID) {
+                post.isLiked = like;
+            }
+            return post;
+        }));
+    }
+
+    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike, updateFeedPost };
 }
