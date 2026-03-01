@@ -5,7 +5,6 @@ const upload = multer({
   storage: multer.memoryStorage(),
 });
 const identifyUser = require("../middlewares/auth.middleware.js");
-
 const postRouter = express.Router();
 
 /**

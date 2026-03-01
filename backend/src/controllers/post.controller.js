@@ -18,7 +18,7 @@ async function createPost(req, res) {
         folder: "insta-clone-posts"
     });
 
-    await postModel.create({
+    const post = await postModel.create({
         caption,
         imageURL: result.url,
         user: userID
@@ -26,7 +26,8 @@ async function createPost(req, res) {
     
     res.status(201).json({
         success: true,
-        message: "Post created"
+        message: "Post created",
+        post
     });
 }
 

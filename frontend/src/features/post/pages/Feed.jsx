@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Post from "../components/Post";
 import { usePost } from "../hooks/usePost";
+import Navbar from "../../shared/components/Navbar";
 
 const Feed = () => {
     const {feed, handleGetFeed, loading, handlePostLike, handlePostDislike, updateFeedPost} = usePost();
@@ -8,11 +9,12 @@ const Feed = () => {
     async function handleLikeButton(post) {
         if(post.isLiked) {
             handlePostDislike(post._id);
-        }
-        else {
+        } else {
             handlePostLike(post._id);
         }
-        updateFeedPost(post._id, !post.isLiked); // update the feed state locally without fetching from the backend
+
+        // update the feed state locally without fetching from the backend
+        updateFeedPost(post._id, !post.isLiked);
     }
 
     useEffect(() => {
@@ -31,12 +33,13 @@ const Feed = () => {
         </main>
     }
 
-    return <main className="min-h-screen w-screen bg-black text-white py-4 px-5">
-        <div className="feed flex flex-col gap-2 lg:w-1/4 w-full mx-auto">
+    return <main className="min-h-screen w-screen bg-black text-white py-4 px-5 relative">
+        <div className="feed flex flex-col gap-2 lg:w-1/4 w-full mx-auto mb-15">
             {feed.map((post) => {
                 return <Post key={post._id} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
             })}
         </div>
+        <Navbar page="Feed"/>
     </main>
 }
 

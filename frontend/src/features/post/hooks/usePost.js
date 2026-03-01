@@ -1,4 +1,4 @@
-import { getFeed, like, dislike } from "../services/post.api.js";
+import { getFeed, like, dislike, createPost } from "../services/post.api.js";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
@@ -11,11 +11,9 @@ export function usePost() {
         try {
             const data = await getFeed();
             setFeed(data.posts);
-        }
-        catch(err) {
+        } catch(err) {
             console.log(err.message);
-        }
-        finally {
+        } finally {
             setLoading(false);
         }
     }
@@ -24,8 +22,7 @@ export function usePost() {
         try {
             const data = await like(postID);
             console.log(data);
-        }
-        catch(err) {
+        } catch(err) {
             console.log(err.message);
         }
     }
@@ -34,8 +31,7 @@ export function usePost() {
         try {
             const data = await dislike(postID);
             console.log(data);
-        }
-        catch(err) {
+        } catch(err) {
             console.log(err.message);
         }
     }
@@ -49,5 +45,19 @@ export function usePost() {
         }));
     }
 
-    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike, updateFeedPost };
+    async function handleCreatePost(imageFile, caption) {
+        setLoading(true);
+        try {
+            // API call
+            const data = await createPost(imageFile, caption);
+            // update feed array
+            setFeed([data.post, ...feed]);
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost };
 }
