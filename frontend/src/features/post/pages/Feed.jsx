@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import FollowDetails from "../components/FollowDetails";
+import FollowRequests from "../components/FollowRequests";
 import Post from "../components/Post";
 import { usePost } from "../hooks/usePost";
 import Navbar from "../../shared/components/Navbar";
@@ -29,12 +30,14 @@ const Feed = () => {
         </main>
     }
 
-    return <main className="min-h-screen w-screen bg-black text-white py-4 px-5 relative">
-        <div className="feed flex flex-col gap-2 lg:w-1/4 w-full mx-auto mt-15">
+    return <main className="min-h-screen flex justify-center w-screen bg-black text-white py-5 relative">
+        <FollowDetails />
+        <div className="feed flex flex-col gap-2 mt-15 lg:w-120 w-full mx-auto">
             {feed.map((post) => {
                 return <Post key={post._id} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
             })}
         </div>
+        <FollowRequests />
         <Navbar page="Feed"/>
     </main>
 }

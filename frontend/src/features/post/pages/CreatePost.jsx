@@ -29,8 +29,8 @@ const CreatePost = () => {
 
     return <main className="min-h-screen w-screen bg-black text-white relative py-15">
 
-        <form onSubmit={handleSubmit} className="createPostForm lg:w-1/4 mx-auto w-full flex flex-col gap-5">
-            <div className="w-full flex items-center justify-between py-4 px-2">
+        <form onSubmit={handleSubmit} className="createPostForm lg:w-1/4 mx-auto w-full flex flex-col gap-5 px-5">
+            <div className="w-full flex items-center justify-between py-4">
                 <h1 className="text-xl font-semibold">New Post</h1>
                 <button type="submit" className="text-lg cursor-pointer bg-emerald-950 px-4 rounded-md">Post</button>
             </div>
