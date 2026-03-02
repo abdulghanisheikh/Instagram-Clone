@@ -1,7 +1,7 @@
-const followModel = require("../models/follow.model.js");
-const userModel = require("../models/user.model.js");
 const postModel = require("../models/post.model.js");
 const likeModel = require("../models/like.model.js");
+const followModel = require("../models/follow.model.js");
+const userModel = require("../models/user.model.js");
 
 async function sendFollowRequest(req, res) {
     const followerUsername = req.user.username;
@@ -304,6 +304,42 @@ async function getFollowers(req, res) {
     });
 }
 
+async function getFollowings(req, res) {
+    const username = req.user.username;
+
+    const followings = await followModel.find({ follower: username });
+
+    if(!followings) {
+        return res.status(409).json({
+            success: false,
+            message: "No following"
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Following fetched",
+        followings
+    });
+}
+
+async function getAllFollows(req, res) {
+    const follows = await followModel.find();
+
+    if(!follows) {
+        return res.status(409).json({
+            success: false,
+            message: "Follows not found"
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "All follows fetched",
+        follows
+    });
+}
+
 module.exports = {
     sendFollowRequest,
     unfollowUser,
@@ -311,5 +347,8 @@ module.exports = {
     dislikePost,
     acceptFollowRequest,
     rejectFollowRequest,
-    getFollowRequests
+    getFollowRequests,
+    getFollowers,
+    getFollowings,
+    getAllFollows
 }

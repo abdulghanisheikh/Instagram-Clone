@@ -25,6 +25,17 @@ export async function rejectFollow(followID) {
     return response.data;
 }
 
-export async function getFollowers(followeeUsername) {
-    const response = await api.get(`/api/users/`)
+export async function getFollowers() {
+    const response = await api.get("/api/users/followers");
+    return response.data;
+}
+
+export async function getAllFollows() {
+    const response = await api.get("/api/users/allFollows");
+    return response.data;
+}
+
+export async function getMe() {
+    const response = await api.get("/api/auth/getMe");
+    return response.data;
 }

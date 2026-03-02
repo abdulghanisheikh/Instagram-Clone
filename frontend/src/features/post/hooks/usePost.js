@@ -1,10 +1,12 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
+import { getMe } from "../../auth/services/auth.api.js";
+import { getAllFollows } from "../services/follow.api.js";
 import { useContext, useEffect } from "react";
 import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
     const context = useContext(PostContext);
-    const {feed, setFeed, loading, setLoading} = context;
+    const {feed, setFeed, loading, setLoading, follows, setFollows, user, setUser} = context;
 
     async function handleGetFeed() {
         setLoading(true);
@@ -59,9 +61,28 @@ export function usePost() {
         }
     }
 
+    async function handleGetAllFollows() {
+        setLoading(true);
+        try {
+            const data = await getAllFollows();
+            setFollows(data.follows);
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleGetMe() {
+        const data = await getMe();
+        setUser(data.user);
+    }
+
     useEffect(() => {
         handleGetFeed();
+        handleGetAllFollows();
+        handleGetMe();
     }, []);
 
-    return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost };
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user };
 }

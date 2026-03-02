@@ -32,7 +32,7 @@ const CreatePost = () => {
         <form onSubmit={handleSubmit} className="createPostForm lg:w-1/4 mx-auto w-full flex flex-col gap-5 px-5">
             <div className="w-full flex items-center justify-between py-4">
                 <h1 className="text-xl font-semibold">New Post</h1>
-                <button type="submit" className="text-lg cursor-pointer bg-emerald-950 px-4 rounded-md">Post</button>
+                <button type="submit" className="text-lg cursor-pointer border border-emerald-500 bg-emerald-950 px-4 rounded-md active:scale-95 duration-300 ease-in-out">Post</button>
             </div>
 
             <input ref={postImageInputFieldRef} hidden type="file" name="postImage" id="postImage" />
