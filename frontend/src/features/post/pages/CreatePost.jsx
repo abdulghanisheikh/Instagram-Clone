@@ -27,12 +27,12 @@ const CreatePost = () => {
         </main>
     }
 
-    return <main className="min-h-screen w-screen bg-black text-white relative">
+    return <main className="min-h-screen w-screen bg-black text-white relative py-15">
 
-        <form onSubmit={handleSubmit} className="createPostForm lg:w-1/4 mx-auto w-full flex flex-col">
-            <div className="w-full flex items-center justify-between py-4 px-5">
-                <h1 className="text-lg">New Post</h1>
-                <button type="submit" className="text-lg cursor-pointer">Post</button>
+        <form onSubmit={handleSubmit} className="createPostForm lg:w-1/4 mx-auto w-full flex flex-col gap-5">
+            <div className="w-full flex items-center justify-between py-4 px-2">
+                <h1 className="text-xl font-semibold">New Post</h1>
+                <button type="submit" className="text-lg cursor-pointer bg-emerald-950 px-4 rounded-md">Post</button>
             </div>
 
             <input ref={postImageInputFieldRef} hidden type="file" name="postImage" id="postImage" />
@@ -42,15 +42,15 @@ const CreatePost = () => {
                     <RiImageAddFill size={26}/>
                 </div>
                 <h2 className="font-semibold">Select from Gallery</h2>
-                <p className="text-xs text-white/40">Or drag and drop an image</p>
             </label>
 
-            <div className="flex items-center w-full">
-                <img src="" alt="" className="bg-zinc-950 p-1 rounded-full" />
-                <input type="text" 
+            <div className="flex items-start w-full p-2 gap-1">
+                <img src={`https://images.unsplash.com/photo-1772107756927-a3975482b1ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8`} alt="" className="p-1 rounded-full h-10 w-11" />
+                <textarea type="text" 
                 value={caption} 
                 onChange={(e) => setCaption(e.target.value)} 
-                placeholder="caption" name="postCaption" />
+                placeholder="caption" name="postCaption"
+                className="w-full max-h-30 bg-zinc-950 outline-none border-none rounded-md p-2 text-sm" />
             </div>
         </form>
 

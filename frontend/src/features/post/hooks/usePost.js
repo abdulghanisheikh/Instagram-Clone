@@ -1,5 +1,5 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
@@ -58,6 +58,10 @@ export function usePost() {
             setLoading(false);
         }
     }
+
+    useEffect(() => {
+        handleGetFeed();
+    }, []);
 
     return { feed, loading, handleGetFeed, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost };
 }

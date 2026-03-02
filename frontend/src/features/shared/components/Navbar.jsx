@@ -5,7 +5,7 @@ import {useNavigate} from "react-router";
 const Navbar = ({page}) => {
     const navigate = useNavigate();
 
-    return <nav className="px-5 py-2 z-10 bg-white/10 backdrop-blur-sm lg:w-[80%] w-[90%] rounded-lg justify-between fixed bottom-3 left-1/2 -translate-x-1/2 flex items-center">
+    return <nav className="px-5 py-2 z-10 bg-white/10 backdrop-blur-sm lg:w-[80%] w-[90%] rounded-lg justify-between fixed top-3 left-1/2 -translate-x-1/2 flex items-center">
 
         <p className="text-2xl font-semibold tracking-wider cursor-pointer">Insta</p>
         {page === "Feed" ?
