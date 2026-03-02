@@ -19,3 +19,12 @@ export async function acceptFollow(followID) {
     const response = await api.post(`/api/users/follow/${followID}/accept`);
     return response.data;
 }
+
+export async function rejectFollow(followID) {
+    const response = await api.post(`/api/users/follow/${followID}/reject`);
+    return response.data;
+}
+
+export async function getFollowers(followeeUsername) {
+    const response = await api.get(`/api/users/`)
+}

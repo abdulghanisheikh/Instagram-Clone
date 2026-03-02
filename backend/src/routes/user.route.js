@@ -45,4 +45,6 @@ userRouter.post("/follow/:followID/reject", identifyUser, userController.rejectF
  */
 userRouter.get("/followRequest", identifyUser, userController.getFollowRequests);
 
+userRouter.get("/followers", identifyUser, userController.getFollowers);
+
 module.exports = userRouter;

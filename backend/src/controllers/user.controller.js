@@ -285,6 +285,25 @@ async function getFollowRequests(req, res) {
     });
 }
 
+async function getFollowers(req, res) {
+    const followeeUsername = req.user.username;
+
+    const followers = await followModel.find({ followee: followeeUsername });
+
+    if(!followers) {
+        return res.status(409).json({
+            success: false,
+            message: "No followers"
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Followers fetched",
+        followers
+    });
+}
+
 module.exports = {
     sendFollowRequest,
     unfollowUser,
