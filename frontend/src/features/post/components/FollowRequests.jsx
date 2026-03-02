@@ -1,5 +1,5 @@
 const FollowRequests = () => {
-    return <div className="h-screen flex flex-col items-center px-3 py-2 mt-15 w-120 fixed top-1 right-3">
+    return <main className="h-screen flex flex-col items-center px-3 py-2 mt-15 w-120 fixed top-1 right-3">
 
     <div className="Follow-Requests flex flex-col w-full h-1/2 gap-2">
         <h1 className="text-xl">Follow Requests</h1>
@@ -28,7 +28,7 @@ const FollowRequests = () => {
             </li>
         </ol>
     </div>
-  </div>
+  </main>
 }
 
 export default FollowRequests;

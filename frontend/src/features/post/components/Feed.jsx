@@ -1,8 +1,5 @@
-import FollowDetails from "../components/FollowDetails";
-import FollowRequests from "../components/FollowRequests";
 import Post from "../components/Post";
-import { usePost } from "../hooks/usePost";
-import Navbar from "../../shared/components/Navbar";
+import { usePost } from "../hooks/usePost.js";
 
 const Feed = () => {
     const {feed, loading, handlePostLike, handlePostDislike, updateFeedPost} = usePost();
@@ -30,16 +27,11 @@ const Feed = () => {
         </main>
     }
 
-    return <main className="min-h-screen flex justify-center w-screen bg-black text-white py-5 relative">
-        <FollowDetails />
-        <div className="feed flex flex-col gap-2 mt-15 lg:w-120 w-full mx-auto">
+    return <div className="Feed flex flex-col gap-2 mt-15 lg:w-120 w-full mx-auto">
             {feed.map((post) => {
                 return <Post key={post._id} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
             })}
         </div>
-        <FollowRequests />
-        <Navbar page="Feed"/>
-    </main>
 }
 
 export default Feed;
