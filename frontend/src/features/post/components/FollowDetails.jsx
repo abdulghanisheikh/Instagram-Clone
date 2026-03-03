@@ -40,7 +40,7 @@ const FollowDetails = () => {
                 )}
 
                 {followers.length > 0 && followers.map((followDoc, index) => {
-                    return <User key={index} user={followDoc.followerDetail} status={followDoc.status} />
+                    return <User key={index} followDetails={followDoc} otherUser={followDoc.followerDetail} status={followDoc.status} />
                 })}
 
             </ol>
@@ -51,7 +51,7 @@ const FollowDetails = () => {
             <ol className="overflow-y-auto">
 
                 {followings.length > 0 && followings.map((followDoc, index) => {
-                    return <User key={index} user={followDoc.followeeDetail} status={followDoc.status} />
+                    return <User key={index} followDetails={followDoc} otherUser={followDoc.followeeDetail} status={followDoc.status} />
                 })}
 
             </ol>
