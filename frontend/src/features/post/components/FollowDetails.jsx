@@ -1,12 +1,18 @@
 import { usePost } from "../hooks/usePost.js";
+import User from "../components/User";
+import {useEffect} from "react";
 
 const FollowDetails = () => {
-    const {follows, user, loading} = usePost();
+    const {follows, user, loading, handleGetAllFollows} = usePost();
     
     const followers = [];
     const followings = [];
     const requests = [];
     const others = [];
+
+    useEffect(() => {
+        handleGetAllFollows();
+    }, []);
 
     follows.forEach((follow) => {
         const username = user.username;
@@ -33,15 +39,8 @@ const FollowDetails = () => {
                     <div>loading followers...</div>
                 )}
 
-                {followers.length > 0 && followers.map((follower, index) => {
-                    return <li key={index} className="flex items-center justify-between text-sm bg-zinc-900 px-5 rounded-md py-0.5">
-                        <div className="info flex items-center gap-1.5">
-                            <img src="https://images.unsplash.com/photo-1772107756927-a3975482b1ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8" className="w-10 h-10 rounded-full p-1" alt="" />
-                            <p>{follower.follower}</p>
-                        </div>
-
-                        <button className="border px-2 rounded-md py-0.5 cursor-pointer">Unfollow</button>
-                    </li>
+                {followers.length > 0 && followers.map((followDoc, index) => {
+                    return <User key={index} user={followDoc.followerDetail} status={followDoc.status} />
                 })}
 
             </ol>
@@ -51,15 +50,8 @@ const FollowDetails = () => {
             <h1 className="text-xl">Following</h1>
             <ol className="overflow-y-auto">
 
-                {followings.length > 0 && followings.map((following, index) => {
-                    return <li key={index} className="flex items-center justify-between text-sm bg-zinc-900 px-5 rounded-md py-0.5">
-                        <div className="info flex items-center gap-1.5">
-                            <img src="https://images.unsplash.com/photo-1772107756927-a3975482b1ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8" className="w-10 h-10 rounded-full p-1" alt="" />
-                            <p>{following.follower}</p>
-                        </div>
-
-                        <button className="border px-2 rounded-md py-0.5 cursor-pointer">Unfollow</button>
-                    </li>
+                {followings.length > 0 && followings.map((followDoc, index) => {
+                    return <User key={index} user={followDoc.followeeDetail} status={followDoc.status} />
                 })}
 
             </ol>

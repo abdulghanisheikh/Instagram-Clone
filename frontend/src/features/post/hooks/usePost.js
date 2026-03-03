@@ -1,7 +1,7 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
 import { getMe } from "../../auth/services/auth.api.js";
 import { getAllFollows } from "../services/follow.api.js";
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
@@ -74,15 +74,13 @@ export function usePost() {
     }
 
     async function handleGetMe() {
-        const data = await getMe();
-        setUser(data.user);
+        try {
+            const data = await getMe();
+            setUser(data.user);
+        } catch(err) {
+            console.log(err.message);
+        }
     }
 
-    useEffect(() => {
-        handleGetFeed();
-        handleGetAllFollows();
-        handleGetMe();
-    }, []);
-
-    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user };
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe };
 }

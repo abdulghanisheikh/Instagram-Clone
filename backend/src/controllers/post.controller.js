@@ -71,7 +71,8 @@ async function getPostDetails(req, res) {
 }
 
 async function getFeed(req, res) {
-    const posts = await Promise.all((await postModel.find().populate("user").sort({ _id: -1 }).lean()) // [mongoose object] => [regular object]
+    // lean(): mongoose objects => plain JS objects
+    const posts = await Promise.all((await postModel.find().populate("user").sort({ _id: -1 }).lean())
     .map(async(post) => {
         const liked = await likeModel.findOne({
             post: post._id,

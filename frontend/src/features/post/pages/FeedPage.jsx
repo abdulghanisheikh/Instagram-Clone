@@ -7,7 +7,6 @@ const FeedPage = () => {
     return <main className="min-h-screen flex justify-center w-screen bg-black text-white py-5 relative">
         <FollowDetails />
         <Feed />
-        <FollowRequests />
         <Navbar page="Feed"/>
     </main>
 }

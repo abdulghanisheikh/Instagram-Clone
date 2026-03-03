@@ -1,8 +1,9 @@
 import Post from "../components/Post";
 import { usePost } from "../hooks/usePost.js";
+import {useEffect} from "react";
 
 const Feed = () => {
-    const {feed, loading, handlePostLike, handlePostDislike, updateFeedPost} = usePost();
+    const {feed, loading, handlePostLike, handlePostDislike, updateFeedPost, handleGetFeed, handleGetMe} = usePost();
 
     async function handleLikeButton(post) {
         if(post.isLiked) {
@@ -14,6 +15,11 @@ const Feed = () => {
         // update the feed state locally without fetching from the backend
         updateFeedPost(post._id, !post.isLiked);
     }
+
+    useEffect(() => {
+        handleGetFeed();
+        handleGetMe();
+    }, []);
 
     if(loading || !feed) {
         return <main className="min-h-screen w-screen bg-black flex justify-center items-center text-white py-4">

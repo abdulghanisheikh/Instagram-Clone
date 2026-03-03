@@ -324,7 +324,16 @@ async function getFollowings(req, res) {
 }
 
 async function getAllFollows(req, res) {
-    const follows = await followModel.find();
+    let follows = await Promise.all((await followModel.find().lean())
+    .map(async (follow) => {
+        const followerInfo = await userModel.findOne({username: follow.follower});
+        const followeeInfo = await userModel.findOne({username: follow.followee});
+
+        follow.followerDetail = followerInfo;
+        follow.followeeDetail = followeeInfo;
+
+        return follow;
+    }));
 
     if(!follows) {
         return res.status(409).json({
