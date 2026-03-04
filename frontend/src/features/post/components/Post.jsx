@@ -5,7 +5,7 @@ import { FaRegBookmark } from "react-icons/fa";
 import { GoHeartFill } from "react-icons/go";
 
 const Post = ({user, post, handleLikes}) => {
-    return <div className="post bg-zinc-900 flex flex-col gap-3 lg:py-4 py-2 w-full rounded-xl">
+    return <div className="Post bg-zinc-950 flex flex-col gap-3 lg:py-4 py-2 w-full rounded-xl">
         
         <div className="top flex items-center w-full px-7 gap-1">
             <img className="w-8 h-8 p-0.5 rounded-full bg-conic from-red-500 via-purple-500 to-red-500" src={user.profileImage ? user.profileImage : `https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-portrait-176256935.jpg`} alt="" />

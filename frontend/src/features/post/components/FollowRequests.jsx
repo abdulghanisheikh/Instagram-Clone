@@ -1,31 +1,64 @@
+import {usePost} from "../hooks/usePost.js";
+import {useEffect} from "react";
+import User from "./User.jsx";
+
 const FollowRequests = () => {
-    return <main className="h-screen flex flex-col items-center px-3 py-2 mt-15 w-120 fixed top-1 right-3">
+    const {handleGetAllFollows, loading, followDocs, user} = usePost();
 
-    <div className="Follow-Requests flex flex-col w-full h-1/2 gap-2">
+    const requests = [];
+    const others = [];
+
+    useEffect(() => {
+        handleGetAllFollows();
+    }, []);
+
+    followDocs.forEach((followDoc) => {
+        const username = user.username;
+        
+        if(username === followDoc.followee && followDoc.status === "pending") {
+            requests.push(followDoc);
+        } else if(username !== followDoc.followee && username !== followDoc.follower) {
+            others.push(followDoc);
+        }
+    });
+
+    return <main className="h-screen flex flex-col items-center gap-2 mt-15 w-120 fixed top-1 right-3">
+
+    <div className="Follow-Requests flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
+
         <h1 className="text-xl">Follow Requests</h1>
-        <ol className="overflow-y-auto">
-            <li className="flex items-center justify-between text-sm bg-zinc-900 px-2 rounded-md">
-                <div className="info flex items-center gap-1.5">
-                    <img src="https://images.unsplash.com/photo-1772107756927-a3975482b1ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8" className="w-10 h-10 rounded-full p-1" alt="" />
-                    <p>username</p>
-                </div>
+        <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
+            
+            {loading && (
+                <li className="text-sm text-center">Loading requests...</li>
+            )}
 
-                <button></button>
-            </li>
+            {(!requests || requests.length === 0) && (
+                <li className="text-center text-sm opacity-50">No follow requests yet.</li>
+            )}
+
+            {requests.length > 0 && requests.map((request, index) => {
+                return <User key={index} status={request.status} followDetails={request} otherUser={request.followerDetail} />
+            })}
         </ol>
+
     </div>
 
-    <div className="Others flex flex-col w-full h-1/2 gap-2">
+    <div className="Others flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
         <h1 className="text-xl">Others</h1>
-        <ol className="overflow-y-auto">
-            <li className="flex items-center justify-between text-sm bg-zinc-900 px-2 rounded-md">
-                <div className="info flex items-center gap-1.5">
-                    <img src="https://images.unsplash.com/photo-1772107756927-a3975482b1ef?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHw1fHx8ZW58MHx8fHx8" className="w-10 h-10 rounded-full p-1" alt="" />
-                    <p>username</p>
-                </div>
+        <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
 
-                <button className="border px-2 rounded-md py-0.5 cursor-pointer">Unfollow</button>
-            </li>
+            {loading && (
+                <li className="text-center text-sm">Loading users...</li>
+            )}
+
+            {(others.length === 0 || !others) && (
+                <li className="text-center text-sm opacity-50">No users yet.</li>
+            )}
+
+            {others.length > 0 && others.map((other, index) => {
+                return <User followDetails={other} status={other.status} key={index} />
+            })}
         </ol>
     </div>
   </main>

@@ -4,9 +4,10 @@ import Navbar from "../../shared/components/Navbar";
 import Feed from "../components/Feed";
 
 const FeedPage = () => {
-    return <main className="min-h-screen flex justify-center w-screen bg-black text-white py-5 relative">
+    return <main className="min-h-screen flex justify-center items-center w-screen bg-black text-white relative">
         <FollowDetails />
         <Feed />
+        <FollowRequests />
         <Navbar page="Feed"/>
     </main>
 }

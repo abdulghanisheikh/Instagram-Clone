@@ -3,40 +3,38 @@ import User from "../components/User";
 import {useEffect} from "react";
 
 const FollowDetails = () => {
-    const {follows, user, loading, handleGetAllFollows} = usePost();
-    
+    const {loading, handleGetAllFollows, followDocs, user} = usePost();
+
     const followers = [];
     const followings = [];
-    const requests = [];
-    const others = [];
 
     useEffect(() => {
         handleGetAllFollows();
     }, []);
 
-    follows.forEach((follow) => {
-        const username = user.username;
+    followDocs.forEach((followDoc) => {
+        const {username} = user;
 
-        if(username === follow.followee && follow.status === "accepted") {
-            followers.push(follow);
-        } else if(username === follow.follower && follow.status === "accepted") {
-            followings.push(follow);
-        } else if(follow.followee === username && follow.status === "pending") {
-            requests.push(follow);
-        } else if(follow.followee !== username && follow.follower !== username) {
-            others.push(follow);
+        if(username === followDoc.followee && followDoc.status === "accepted") {
+            followers.push(followDoc);
+        } else if(username === followDoc.follower && followDoc.status === "accepted") {
+            followings.push(followDoc);
         }
     });
 
-    return <main className="h-screen flex flex-col items-center px-3 mt-15 w-120 fixed top-1 left-3">
+    return <main className="h-screen flex flex-col gap-2 items-center mt-15 w-120 fixed top-1 left-3">
 
-        <div className="Followers flex flex-col w-full h-1/2 gap-2">
+        <div className="Followers flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
             <h1 className="text-xl">Followers</h1>
 
-            <ol className="overflow-y-auto">
+            <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
 
                 {loading && (
-                    <div>loading followers...</div>
+                    <li className="text-sm text-center">loading followers...</li>
+                )}
+
+                {(!followers || followers.length === 0) && (
+                    <li className="text-sm text-center opacity-50">No follower yet.</li>
                 )}
 
                 {followers.length > 0 && followers.map((followDoc, index) => {
@@ -46,9 +44,17 @@ const FollowDetails = () => {
             </ol>
         </div>
 
-        <div className="Following flex flex-col w-full h-1/2 gap-2">
-            <h1 className="text-xl">Following</h1>
-            <ol className="overflow-y-auto">
+        <div className="Following flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
+            <h1 className="text-xl">Followings</h1>
+            <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
+
+                {loading && (
+                    <li className="text-sm text-center">loading followings...</li>
+                )}
+
+                {(!followings || followings.length === 0) && (
+                    <li className="text-sm text-center opacity-50">No followings yet.</li>
+                )}
 
                 {followings.length > 0 && followings.map((followDoc, index) => {
                     return <User key={index} followDetails={followDoc} otherUser={followDoc.followeeDetail} status={followDoc.status} />

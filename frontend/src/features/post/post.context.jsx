@@ -6,10 +6,10 @@ export function PostContextProvider({ children }) {
     const [feed, setFeed] = useState([]);
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(false);
-    const [follows, setFollows] = useState([]);
+    const [followDocs, setFollowDocs] = useState([]);
     const [user, setUser] = useState(null);
 
-    return <PostContext.Provider value={{feed, setFeed, loading, setLoading, post, setPost, follows, setFollows, user, setUser}}>
+    return <PostContext.Provider value={{feed, setFeed, loading, setLoading, post, setPost, followDocs, setFollowDocs, user, setUser}}>
         {children}
     </PostContext.Provider>
 }

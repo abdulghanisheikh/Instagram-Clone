@@ -33,7 +33,7 @@ const Feed = () => {
         </main>
     }
 
-    return <div className="Feed flex flex-col gap-2 mt-15 lg:w-120 w-full mx-auto">
+    return <div className="Feed flex flex-col gap-2 py-20 lg:w-120 w-full">
             {feed.map((post) => {
                 return <Post key={post._id} post={post} user={post.user} handleLikes={() => handleLikeButton(post)}></Post>
             })}

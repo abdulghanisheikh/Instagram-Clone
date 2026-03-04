@@ -2,11 +2,16 @@ import { usePost } from "../hooks/usePost.js";
 import { useEffect } from "react";
 
 const User = ({otherUser, status, followDetails}) => {
-    
-    const {username, profileImage} = otherUser;
     const {follower, followee} = followDetails;
+    let username;
+    let profileImage;
+    if(otherUser) {
+        username = otherUser.username;
+        profileImage = otherUser.profileImage;
+    }
+
     const {handleGetMe, user} = usePost();
-    const myUsername = user.username; 
+    const myUsername = user.username;
     
     useEffect(() => {
         handleGetMe();
@@ -28,7 +33,7 @@ const User = ({otherUser, status, followDetails}) => {
         }
     }
 
-    return <li className="flex items-center justify-between text-sm bg-zinc-900 px-5 rounded-md py-0.5">
+    return <li className="flex items-center justify-between text-sm bg-zinc-900 px-5 rounded-lg py-0.5">
         <div className="info flex items-center gap-1.5">
             <img src={profileImage} alt="" className="h-9 w-9 p-1 rounded-full" />
             <p>{username}</p>

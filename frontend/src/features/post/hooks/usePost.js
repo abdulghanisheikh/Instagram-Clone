@@ -6,7 +6,7 @@ import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
     const context = useContext(PostContext);
-    const {feed, setFeed, loading, setLoading, follows, setFollows, user, setUser} = context;
+    const {feed, setFeed, loading, setLoading, follows, user, setUser, followDocs, setFollowDocs} = context;
 
     async function handleGetFeed() {
         setLoading(true);
@@ -65,7 +65,7 @@ export function usePost() {
         setLoading(true);
         try {
             const data = await getAllFollows();
-            setFollows(data.follows);
+            setFollowDocs(data.follows);
         } catch(err) {
             console.log(err.message);
         } finally {
@@ -82,5 +82,5 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe };
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs };
 }
