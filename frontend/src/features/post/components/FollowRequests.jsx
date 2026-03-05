@@ -1,24 +1,25 @@
-import {usePost} from "../hooks/usePost.js";
-import {useEffect} from "react";
+import { usePost } from "../hooks/usePost.js";
+import { useEffect } from "react";
 import User from "./User.jsx";
+import Suggestions from "./Suggestions.jsx";
 
 const FollowRequests = () => {
-    const {handleGetAllFollows, loading, followDocs, user, handleGetUsers, users} = usePost();
+    const {handleGetAllFollows, loading, followDocs, user, handleGetSuggestedUsers, suggestedUsers} = usePost();
 
-    const requests = [];
+    async function callHandlers() {
+        await Promise.all([handleGetAllFollows(), handleGetSuggestedUsers()]);
+    }
 
     useEffect(() => {
-        handleGetAllFollows();
-        handleGetUsers();
+        callHandlers();
     }, []);
 
+    const requests = [];
     followDocs.forEach((followDoc) => {
         const username = user.username;
         
         if(username === followDoc.followee && followDoc.status === "pending") {
             requests.push(followDoc);
-        } else if(username !== followDoc.followee && username !== followDoc.follower) {
-            others.push(followDoc);
         }
     });
 
@@ -52,12 +53,12 @@ const FollowRequests = () => {
                 <li className="text-center text-sm">Loading users...</li>
             )}
 
-            {(users.length === 0 || !users) && (
+            {(!suggestedUsers || suggestedUsers.length === 0) && (
                 <li className="text-center text-sm opacity-50">No users yet.</li>
             )}
 
-            {users.length > 0 && users.map((user, index) => {
-                return <User followDetails={user} status={user.status} key={index} />
+            {suggestedUsers.map((suggestion, index) => {
+                return <Suggestions key={index} suggestedUser={suggestion} />
             })}
         </ol>
     </div>

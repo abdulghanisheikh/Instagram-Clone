@@ -65,8 +65,8 @@ userRouter.post("/cancelRequest/:username", identifyUser, userController.cancelR
 
 /**
  * @route GET /api/users/
- * @decription get all users
+ * @decription get suggested users
  */
-userRouter.get("/", identifyUser, userController.getAllUsers);
+userRouter.get("/suggestions", identifyUser, userController.getSuggestedUsers);
 
 module.exports = userRouter;

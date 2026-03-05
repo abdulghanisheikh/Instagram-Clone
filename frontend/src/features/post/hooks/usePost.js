@@ -1,12 +1,12 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
 import { getMe } from "../../auth/services/auth.api.js";
-import { getAllFollows, follow, unfollow, acceptFollow, rejectFollow, removeFollower, cancelRequest, getUsers } from "../services/follow.api.js";
+import { getAllFollows, follow, unfollow, acceptFollow, rejectFollow, removeFollower, cancelRequest, getSuggestedUsers } from "../services/follow.api.js";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
     const context = useContext(PostContext);
-    const {feed, setFeed, loading, setLoading, follows, user, setUser, followDocs, setFollowDocs, users, setUsers} = context;
+    const {feed, setFeed, loading, setLoading, follows, user, setUser, followDocs, setFollowDocs, suggestedUsers, setSuggestedUsers} = context;
 
     async function handleGetFeed() {
         setLoading(true);
@@ -154,11 +154,11 @@ export function usePost() {
         }
     }
 
-    async function handleGetUsers() {
+    async function handleGetSuggestedUsers() {
         setLoading(true);
         try {
-            const data = await getUsers();
-            setUsers(data.users);
+            const data = await getSuggestedUsers();
+            setSuggestedUsers(data.users);
         } catch(err) {
             console.log(err.message);
         } finally {
@@ -166,5 +166,5 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest, handleGetUsers };
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest, handleGetSuggestedUsers, suggestedUsers };
 }

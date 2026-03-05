@@ -44,3 +44,8 @@ export async function cancelRequest(followeeUsername) {
     const response = await api.post(`/api/users/cancelRequest/${followeeUsername}`);
     return response.data;
 }
+
+export async function getSuggestedUsers() {
+    const response = await api.get("/api/users/suggestions");
+    return response.data;
+}

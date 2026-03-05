@@ -380,31 +380,33 @@ async function cancelRequest(req, res) {
     });
 }
 
-async function getAllUsers(req, res) {
-    const username = req.user.username;
-    const users = await Promise.all((await userModel.find({ username: { $ne: username } }).lean())
+async function getSuggestedUsers(req, res) {
+    const myUsername = req.user.username;
+    
+    const users = (await Promise.all((await userModel.find({ username: { $ne: myUsername } }).lean())
     .map(async(user) => {
         user.requestedTo = false;
+        const {username} = user;
         
         const follow = await followModel.findOne({
             $or: [{
-                    follower: username,
-                    followee: user.username
-                }, {
-                    follower: user.username,
-                    followee: username
-                }]
-            });
+                follower: myUsername,
+                followee: username
+            }, {
+                follower: username,
+                followee: myUsername
+            }]
+        });
 
         if(!follow) {
             return user;
         }
 
-        if(follow.followee === user.username && follow.follower === username && follow.status === "pending")  {
+        if(follow.followee === username && follow.follower === myUsername && follow.status === "pending")  {
             user.requestedTo = true;
             return user;
         }
-    }));
+    }))).filter(Boolean);
     
     if(!users) {
         return res.status(409).json({
@@ -431,5 +433,5 @@ module.exports = {
     getAllFollows,
     removeFollower,
     cancelRequest,
-    getAllUsers
+    getSuggestedUsers
 }

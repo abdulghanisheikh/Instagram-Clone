@@ -3,6 +3,7 @@ import { useEffect } from "react";
 
 const User = ({otherUser, status, followDetails}) => {
     const { follower, followee } = followDetails;
+
     const { handleGetMe, user, handleGetAllFollows, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest } = usePost();
 
     const username = otherUser.username;
@@ -46,7 +47,7 @@ const User = ({otherUser, status, followDetails}) => {
                         await handleAcceptRequest(followDetails._id);
                         await handleGetAllFollows();
                     }}
-                    className="border px-2 rounded-md py-0.5 cursor-pointer">Accept</button>
+                    className="bg-blue-600 px-2 rounded-md py-0.5 cursor-pointer">Accept</button>
                     <button
                     onClick={async () => {
                         await handleRejectRequest(followDetails._id);
@@ -61,7 +62,7 @@ const User = ({otherUser, status, followDetails}) => {
                 await handleFollow(username);
                 await handleGetAllFollows();
             }}
-            className="border px-2 rounded-md py-0.5 cursor-pointer">Follow</button>
+            className="px-2 rounded-md py-0.5 cursor-pointer bg-blue-600">Follow</button>
         }
     }
 
