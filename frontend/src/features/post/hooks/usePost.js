@@ -1,6 +1,6 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
 import { getMe } from "../../auth/services/auth.api.js";
-import { getAllFollows } from "../services/follow.api.js";
+import { getAllFollows, follow, unfollow, acceptFollow, rejectFollow, removeFollower, cancelRequest } from "../services/follow.api.js";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
@@ -82,5 +82,77 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs };
+    async function handleFollow(username) {
+        setLoading(true);
+        try {
+            const data = await follow(username);
+            return data;
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleUnfollow(username) {
+        setLoading(true);
+        try {
+            const data = await unfollow(username);
+            return data;
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleAcceptRequest(followID) {
+        setLoading(true);
+        try {
+            const data = await acceptFollow(followID);
+            return data;
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleRejectRequest(followID) {
+        setLoading(true);
+        try {
+            const data = await rejectFollow(followID);
+            return data;
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleRemoveFollower(username) {
+        setLoading(true);
+        try {
+            const data = await removeFollower(username);
+            return data.follow;
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleCancelRequest(followeeUsername) {
+        setLoading(true);
+        try {
+            const data = await cancelRequest(followeeUsername);
+            return data.request
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest };
 }

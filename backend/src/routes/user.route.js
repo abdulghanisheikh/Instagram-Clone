@@ -46,14 +46,21 @@ userRouter.post("/follow/:followID/reject", identifyUser, userController.rejectF
 userRouter.get("/followRequest", identifyUser, userController.getFollowRequests);
 
 /**
- * @route GET /api/users/followers
- * @description get all followers
- */
-userRouter.get("/followers", identifyUser, userController.getFollowers);
-
-/**
  * @route GET /api/users/allFollows
+ * @description gets all follow documents from DB
  */
 userRouter.get("/allFollows", identifyUser, userController.getAllFollows);
+
+/**
+ * @route POST /api/users/removeFollower/:username
+ * @description removes a follower
+ */
+userRouter.post("/removeFollower/:username", identifyUser, userController.removeFollower);
+
+/**
+ * @route POST /api/users/cancelRequest/:username
+ * @description cancels follow request
+ */
+userRouter.post("/cancelRequest/:username", identifyUser, userController.cancelRequest);
 
 module.exports = userRouter;

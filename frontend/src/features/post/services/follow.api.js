@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const api = new axios.create({
+const api = axios.create({
     baseURL: import.meta.env.VITE_BASE_API_URL,
     withCredentials: true
 });
@@ -25,17 +25,22 @@ export async function rejectFollow(followID) {
     return response.data;
 }
 
-export async function getFollowers() {
-    const response = await api.get("/api/users/followers");
-    return response.data;
-}
-
 export async function getAllFollows() {
     const response = await api.get("/api/users/allFollows");
     return response.data;
 }
 
+export async function removeFollower(followerUsername) {
+    const response = await api.post(`/api/users/removeFollower/${followerUsername}`);
+    return response.data;
+}
+
 export async function getMe() {
     const response = await api.get("/api/auth/getMe");
+    return response.data;
+}
+
+export async function cancelRequest(followeeUsername) {
+    const response = await api.post(`/api/users/cancelRequest/${followeeUsername}`);
     return response.data;
 }

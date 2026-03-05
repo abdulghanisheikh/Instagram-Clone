@@ -3,3 +3,7 @@
 body {
     font-family: "poppins";
 }
+
+::selection {
+    color: blue;
+}

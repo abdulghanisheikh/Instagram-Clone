@@ -285,41 +285,42 @@ async function getFollowRequests(req, res) {
     });
 }
 
-async function getFollowers(req, res) {
-    const followeeUsername = req.user.username;
+async function removeFollower(req, res) {
+    const follower = req.params.username;
+    const followee = req.user.username;
 
-    const followers = await followModel.find({ followee: followeeUsername });
+    const isFollowerExist = await userModel.findOne({username: follower});
 
-    if(!followers) {
+    if(!isFollowerExist) {
         return res.status(409).json({
             success: false,
-            message: "No followers"
+            message: "Follower not found."
         });
     }
 
-    res.status(200).json({
-        success: true,
-        message: "Followers fetched",
-        followers
+    const isFollowExist = await followModel.find({
+        follower,
+        followee,
+        status: "accepted"
     });
-}
 
-async function getFollowings(req, res) {
-    const username = req.user.username;
-
-    const followings = await followModel.find({ follower: username });
-
-    if(!followings) {
-        return res.status(409).json({
-            success: false,
-            message: "No following"
+    if(!isFollowExist) {
+        return res.status(200).json({
+            success: true,
+            message: `${follower} is not following you.`
         });
     }
 
+    const deletedFollow = await followModel.findOneAndDelete({
+        follower,
+        followee,
+        status: "accepted"
+    });
+
     res.status(200).json({
         success: true,
-        message: "Following fetched",
-        followings
+        message: `${follower} removed`,
+        follow: deletedFollow
     });
 }
 
@@ -349,6 +350,36 @@ async function getAllFollows(req, res) {
     });
 }
 
+async function cancelRequest(req, res) {
+    const followeeUsername = req.params.username;
+    const followerUsername = req.user.username;
+    
+    const isRequestExist = await followModel.findOne({
+        followee: followeeUsername,
+        follower: followerUsername,
+        status: "pending" 
+    });
+
+    if(!isRequestExist) {
+        return res.status(403).json({
+            success: true,
+            message: "Request not found"
+        });
+    }
+
+    const canceledRequest = await followModel.findOneAndDelete({
+        follower: followerUsername,
+        followee: followeeUsername,
+        status: "pending"
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Follow request canceled.",
+        request: cancelRequest
+    });
+}
+
 module.exports = {
     sendFollowRequest,
     unfollowUser,
@@ -357,7 +388,7 @@ module.exports = {
     acceptFollowRequest,
     rejectFollowRequest,
     getFollowRequests,
-    getFollowers,
-    getFollowings,
-    getAllFollows
+    getAllFollows,
+    removeFollower,
+    cancelRequest
 }
