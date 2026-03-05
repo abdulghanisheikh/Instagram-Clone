@@ -3,13 +3,13 @@ import {useEffect} from "react";
 import User from "./User.jsx";
 
 const FollowRequests = () => {
-    const {handleGetAllFollows, loading, followDocs, user} = usePost();
+    const {handleGetAllFollows, loading, followDocs, user, handleGetUsers, users} = usePost();
 
     const requests = [];
-    const others = [];
 
     useEffect(() => {
         handleGetAllFollows();
+        handleGetUsers();
     }, []);
 
     followDocs.forEach((followDoc) => {
@@ -45,19 +45,19 @@ const FollowRequests = () => {
     </div>
 
     <div className="Others flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
-        <h1 className="text-xl">Others</h1>
+        <h1 className="text-xl">User Suggestions</h1>
         <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
 
             {loading && (
                 <li className="text-center text-sm">Loading users...</li>
             )}
 
-            {(others.length === 0 || !others) && (
+            {(users.length === 0 || !users) && (
                 <li className="text-center text-sm opacity-50">No users yet.</li>
             )}
 
-            {others.length > 0 && others.map((other, index) => {
-                return <User followDetails={other} status={other.status} key={index} />
+            {users.length > 0 && users.map((user, index) => {
+                return <User followDetails={user} status={user.status} key={index} />
             })}
         </ol>
     </div>

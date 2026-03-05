@@ -28,3 +28,8 @@ export async function createPost(imageFile, caption) {
     const response = await api.post("/api/posts/", formData);
     return response.data;
 }
+
+export async function getUsers() {
+    const response = await api.get("/api/users/");
+    return response.data;
+}

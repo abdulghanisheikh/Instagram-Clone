@@ -1,12 +1,12 @@
 import { getFeed, like, dislike, createPost } from "../services/post.api.js";
 import { getMe } from "../../auth/services/auth.api.js";
-import { getAllFollows, follow, unfollow, acceptFollow, rejectFollow, removeFollower, cancelRequest } from "../services/follow.api.js";
+import { getAllFollows, follow, unfollow, acceptFollow, rejectFollow, removeFollower, cancelRequest, getUsers } from "../services/follow.api.js";
 import { useContext } from "react";
 import { PostContext } from "../post.context.jsx";
 
 export function usePost() {
     const context = useContext(PostContext);
-    const {feed, setFeed, loading, setLoading, follows, user, setUser, followDocs, setFollowDocs} = context;
+    const {feed, setFeed, loading, setLoading, follows, user, setUser, followDocs, setFollowDocs, users, setUsers} = context;
 
     async function handleGetFeed() {
         setLoading(true);
@@ -154,5 +154,17 @@ export function usePost() {
         }
     }
 
-    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest };
+    async function handleGetUsers() {
+        setLoading(true);
+        try {
+            const data = await getUsers();
+            setUsers(data.users);
+        } catch(err) {
+            console.log(err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { feed, loading, follows, handlePostLike, handlePostDislike, updateFeedPost, handleCreatePost, user, handleGetFeed, handleGetAllFollows, handleGetMe, followDocs, handleFollow, handleUnfollow, handleAcceptRequest, handleRejectRequest, handleRemoveFollower, handleCancelRequest, handleGetUsers };
 }
