@@ -63,4 +63,10 @@ userRouter.post("/removeFollower/:username", identifyUser, userController.remove
  */
 userRouter.post("/cancelRequest/:username", identifyUser, userController.cancelRequest);
 
+/**
+ * @route GET /api/users/
+ * @decription get all users
+ */
+userRouter.get("/", identifyUser, userController.getAllUsers);
+
 module.exports = userRouter;

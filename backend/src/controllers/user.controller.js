@@ -376,7 +376,47 @@ async function cancelRequest(req, res) {
     res.status(200).json({
         success: true,
         message: "Follow request canceled.",
-        request: cancelRequest
+        request: canceledRequest
+    });
+}
+
+async function getAllUsers(req, res) {
+    const username = req.user.username;
+    const users = await Promise.all((await userModel.find({ username: { $ne: username } }).lean())
+    .map(async(user) => {
+        user.requestedTo = false;
+        
+        const follow = await followModel.findOne({
+            $or: [{
+                    follower: username,
+                    followee: user.username
+                }, {
+                    follower: user.username,
+                    followee: username
+                }]
+            });
+
+        if(!follow) {
+            return user;
+        }
+
+        if(follow.followee === user.username && follow.follower === username && follow.status === "pending")  {
+            user.requestedTo = true;
+            return user;
+        }
+    }));
+    
+    if(!users) {
+        return res.status(409).json({
+            success: false,
+            message: "No users found."
+        });
+    }
+
+    res.status(200).json({
+        success: true,
+        message: "Users fetched",
+        users
     });
 }
 
@@ -390,5 +430,6 @@ module.exports = {
     getFollowRequests,
     getAllFollows,
     removeFollower,
-    cancelRequest
+    cancelRequest,
+    getAllUsers
 }
