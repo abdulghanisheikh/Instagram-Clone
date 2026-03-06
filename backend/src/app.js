@@ -21,7 +21,7 @@ app.use("/api/posts", postRouter);
 app.use("/api/users", userRouter);
 
 app.get("*name", (req, res) => {
-    console.log("You are at wild card route.");
+    res.send("You are at wild card route.");
 });
 
 module.exports = app;
