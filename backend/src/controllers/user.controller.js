@@ -402,8 +402,11 @@ async function getSuggestedUsers(req, res) {
             return user;
         }
 
-        if(follow.followee === username && follow.follower === myUsername && follow.status === "pending")  {
+        if((follow.followee === username && follow.follower === myUsername && follow.status === "pending"))  {
             user.requestedTo = true;
+            return user;
+        } if(follow.followee === myUsername && follow.follower === username && follow.status === "rejected") {
+            user.requestedTo = false;
             return user;
         }
     }))).filter(Boolean);

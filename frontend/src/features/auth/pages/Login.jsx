@@ -17,12 +17,16 @@ const Login = () => {
 		try {
 			const {username, password} = userData;
 
-			await handleLogin(username, password);
+			const {success, message} = await handleLogin(username, password);
+
+			if(success) {
+				navigate("/");
+			} else {
+				console.log(message);
+			}
+
 			setUserData({ username: "", password: "" });
-			
-			navigate("/");
-		}
-		catch(err) {
+		} catch(err) {
 			console.log(err.message);
 		}
 	}

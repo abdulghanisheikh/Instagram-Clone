@@ -18,13 +18,18 @@ const Register = () => {
         try {
             const {username, email, password} = userData;
     
-            await handleRegister(username, email, password);
+            const {success, message} = await handleRegister(username, email, password);
             setUserData({
                 username: "",
                 email: "",
                 password: ""
             });
-            navigate("/");
+
+            if(success) {
+                navigate("/");
+            } else {
+                console.log(message);
+            }
         }
         catch(err) {
             console.log(err.message);

@@ -46,7 +46,7 @@ const FollowRequests = () => {
     </div>
 
     <div className="Others flex flex-col w-full h-1/2 gap-2 px-5 bg-zinc-950 rounded-lg">
-        <h1 className="text-xl">User Suggestions</h1>
+        <h1 className="text-xl">Suggestions</h1>
         <ol className="overflow-y-auto flex flex-col gap-1.5 justify-center">
 
             {loading && (
