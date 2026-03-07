@@ -17,7 +17,6 @@ const CreatePost = () => {
         const file = postImageInputFieldRef.current.files[0];
         
         await handleCreatePost(file, caption);
-
         navigate("/");
     }
 
@@ -49,7 +48,7 @@ const CreatePost = () => {
                 <textarea type="text" 
                 value={caption} 
                 onChange={(e) => setCaption(e.target.value)} 
-                placeholder="caption" name="postCaption"
+                placeholder="Write caption here" name="postCaption"
                 className="w-full max-h-30 bg-zinc-950 outline-none border-none rounded-md p-2 text-sm" />
             </div>
         </form>
