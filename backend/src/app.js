@@ -14,7 +14,10 @@ app.use(cors({
     credentials: true,
     origin: process.env.FRONTEND_URL
 }));
-app.use(express.static("../public"));
+
+// To serve static files from backend
+const publicPath = path.join(__dirname, "..", "public");
+app.use(express.static(publicPath));
 
 app.use("/api/auth", authRouter);
 app.use("/api/posts", postRouter);
